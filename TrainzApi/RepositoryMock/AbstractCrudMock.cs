@@ -4,7 +4,7 @@ namespace TrainzApi.RepositoryMock
 {
     public abstract class AbstractCrudMock<T> : ICrudRepository<T>
     {
-        private readonly static List<T> mockList = new ();
+        protected readonly static List<T> mockList = new ();
 
         protected abstract Func<T, int> GetId { get; }
 

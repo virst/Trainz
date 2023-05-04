@@ -10,7 +10,7 @@ namespace TrainzLib.Repository
         bool IsFirstOnWay(int vagonId);
         bool IsLastOnWay(int vagonId);
         IEnumerable<VagonInfo> VagonsOnWay(int wayId);
-        VagonInfo InfoByWagon(int vagonNum);
+        VagonInfo? InfoByWagon(int vagonNum);
         void ClearBuffer();
     }
 }

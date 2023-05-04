@@ -43,7 +43,7 @@ namespace TrainzLib.Operations
                     throw new TrainzException(100, "Нельзя ставить на неопределенный путь");
 
                 if (!wayNums.ContainsKey(v.WayId.Value))
-                    wayNums[v.WayId.Value] = new Nums() { BaseNum = _vagonRep.WayLasnNum(v.WayId.Value) };
+                    wayNums[v.WayId.Value] = new Nums() { BaseNum = _vagonRep.WayLastNum(v.WayId.Value) };
 
                 wayNums[v.WayId.Value].AddNum++;
 
