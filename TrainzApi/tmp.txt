@@ -1,0 +1,7 @@
+yield return new VagonType { Id = ++i, Name = "Пассажирский Купе" };
+yield return new VagonType { Id = ++i, Name = "Пассажирский Плацкарт" };
+yield return new VagonType { Id = ++i, Name = "Платформа" };
+yield return new VagonType { Id = ++i, Name = "Полувагон" };
+yield return new VagonType { Id = ++i, Name = "Хоппер" };
+yield return new VagonType { Id = ++i, Name = "Цистерна" };
+yield return new VagonType { Id = ++i, Name = "Крытый вагон" };
