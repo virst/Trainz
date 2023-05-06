@@ -39,7 +39,9 @@ namespace TrainzLib.Operations
             // проверяем возможнсть вставки входных данных
             foreach (var v in vagons)
             {
-                if (v.WayId == null)
+                var w = _wayRep.GetById(v.WayId ?? 0);
+
+                if (v.WayId == null || w?.Id == null)
                     throw new TrainzException(100, "Нельзя ставить на неопределенный путь");
 
                 if (!wayNums.ContainsKey(v.WayId.Value))
@@ -63,16 +65,21 @@ namespace TrainzLib.Operations
         /// Операция перестановки вагонов внутри станции.
         /// </summary>
         /// <param name="wayId">Целевой путь</param>
-        /// <param name="vagonNums">Список нумеров вагонов</param>
+        /// <param name="vagonNums">Список номеров вагонов</param>        
         /// <exception cref="TrainzException">Ошибка о невозможности выполнить соответствующую перестановку</exception>
         public void TranspositionVagons(int wayId, List<int> vagonNums)
         {
+            if (vagonNums.Count == 0)
+                return;
+
             var w = _wayRep.GetById(wayId);
 
             if (w == null)
                 throw new TrainzException(200, "Нельзя ставить на не созданный путь");
 
             int stanId = w.StationId;
+
+            HashSet<int> affectedWays = new();
 
             _vagonRep.StartBuffer();
             var vagonsOnWay = _vagonRep.VagonsOnWay(wayId).ToList(); // Все вагоны на целевом пути
@@ -88,6 +95,8 @@ namespace TrainzLib.Operations
                         throw new TrainzException(201, "Нельзя переместить не зарегистированный вагон");
                     if (stanId != _wayRep.GetById(vi.WayId ?? 0)?.StationId)
                         throw new TrainzException(202, "Перестановки возможны только в рамках одной станции");
+
+                    affectedWays.Add(vi.WayId ?? 0);
 
                     if (_vagonRep.IsFirstOnWay(vNum)) // если в начале - можем переставить в начало
                     {
@@ -128,8 +137,18 @@ namespace TrainzLib.Operations
             {
                 _vagonRep.Update(v);
             }
+
+            foreach (var v in affectedWays)
+            {
+                _vagonRep.ReOrderVagonsOnWay(v);
+            }
         }
 
+        /// <summary>
+        /// Операция убытия вагонов на сеть РЖД.
+        /// </summary>
+        /// <param name="vagonNums">Список номеров вагонов</param>
+        /// <exception cref="TrainzException"></exception>
         public void DepartureVagons(List<int> vagonNums)
         {
             if (vagonNums.Count == 0) return;
@@ -140,6 +159,8 @@ namespace TrainzLib.Operations
             foreach (var v in vagonNums)
             {
                 var vi = _vagonRep.InfoByWagon(v);
+                if (vi == null)
+                    throw new TrainzException(303, "Не вохможно отбытие не обсуживаемого вагона");
                 list.Add(vi);
             }
 
@@ -158,13 +179,7 @@ namespace TrainzLib.Operations
                 _vagonRep.DeleteById(v.Id);
             }
 
-            var infoToReOrd = _vagonRep.VagonsOnWay(wayId).OrderBy(t => t.OrderNum);
-            int num = 0;
-            foreach (var v in infoToReOrd)
-            {
-                v.OrderNum = ++num;
-                _vagonRep.Update(v);
-            }
+            _vagonRep.ReOrderVagonsOnWay(wayId);
 
         }
     }

@@ -12,5 +12,6 @@ namespace TrainzLib.Repository
         IEnumerable<VagonInfo> VagonsOnWay(int wayId);
         VagonInfo? InfoByWagon(int vagonNum);
         void ClearBuffer();
+        void ReOrderVagonsOnWay(int wayId);
     }
 }

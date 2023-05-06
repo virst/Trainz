@@ -1,12 +1,16 @@
-﻿using TrainzLib.Repository;
+﻿using System.Reflection;
+using TrainzLib.Repository;
 
-namespace TrainzApi.RepositoryMock
+namespace TrainzMock
 {
     public abstract class AbstractCrudMock<T> : ICrudRepository<T>
     {
-        protected readonly static List<T> mockList = new ();
+        protected readonly static List<T> mockList = new();
 
-        protected abstract Func<T, int> GetId { get; }
+        protected abstract PropertyInfo IdProperty { get; }
+
+        private int GetId(T entity) => (int)IdProperty.GetValue(entity);
+        private void SetId(T entity, int id) => IdProperty.SetValue(entity, id);
 
         public void DeleteById(int id)
         {
@@ -27,13 +31,19 @@ namespace TrainzApi.RepositoryMock
 
         public void Insert(T entity)
         {
+            if (GetId(entity) == 0)
+                SetId(entity, mockList.Count() + 1);
             mockList.Add(entity);
         }
 
         public void Update(T entity)
         {
-            DeleteById(GetId(entity));
-            Insert(entity);
+
+        }
+
+        public void ClearAll()
+        {
+            mockList.Clear();
         }
     }
 }

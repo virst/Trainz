@@ -1,8 +1,9 @@
 using Serilog;
 using System.Globalization;
 using TrainzLib.Models;
+using TrainzLib.Operations;
 using TrainzLib.Repository;
-using TrainzApi.RepositoryMock;
+using TrainzMock;
 
 #region log config
 var lc = new LoggerConfiguration()
@@ -28,6 +29,7 @@ builder.Services.AddScoped<ICrudRepository<Way>, WayCrudMock>();
 builder.Services.AddScoped<ICrudRepository<Station>, StationCrudMock>();
 builder.Services.AddScoped<ICrudRepository<GruzType>, GruzCrudMock>();
 builder.Services.AddScoped<ICrudRepository<VagonType>, VagonTypeCrudMock>();
+builder.Services.AddScoped<TrainzOperator>();
 
 var app = builder.Build();
 

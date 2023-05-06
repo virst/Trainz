@@ -7,6 +7,7 @@
         void DeleteById(int id);
         void Update(T entity);
         void Insert(T entity);
+        void ClearAll();
 
     }
 }

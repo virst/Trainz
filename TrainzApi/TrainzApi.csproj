@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\TrainzLib\TrainzLib.csproj" />
+	  <ProjectReference Include="..\TrainzMock\TrainzMock.csproj" />
 	</ItemGroup>
 
 </Project>
