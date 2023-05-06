@@ -29,6 +29,7 @@ builder.Services.AddScoped<ICrudRepository<Way>, WayCrudMock>();
 builder.Services.AddScoped<ICrudRepository<Station>, StationCrudMock>();
 builder.Services.AddScoped<ICrudRepository<GruzType>, GruzCrudMock>();
 builder.Services.AddScoped<ICrudRepository<VagonType>, VagonTypeCrudMock>();
+builder.Services.AddScoped<IVagonInfoRepository, VagonInfoMock>();
 builder.Services.AddScoped<TrainzOperator>();
 
 var app = builder.Build();
