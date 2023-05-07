@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TrainzLib;
 using TrainzLib.Models;
 using TrainzLib.Operations;
@@ -6,6 +7,7 @@ using TrainzLib.Repository;
 
 namespace TrainzApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [Tags("Утилиты для тестирования")]
