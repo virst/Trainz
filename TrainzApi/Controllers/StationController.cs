@@ -2,9 +2,11 @@
 using TrainzLib.Models;
 using TrainzLib.Repository;
 using TrainzApi.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TrainzApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [Tags("Crud операции со станциями")]
