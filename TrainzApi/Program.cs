@@ -3,7 +3,9 @@ using System.Globalization;
 using TrainzLib.Models;
 using TrainzLib.Operations;
 using TrainzLib.Repository;
-using TrainzMock;
+using TrainzLiteDb;
+using TrainzLiteDb.Data;
+
 
 #region log config
 var lc = new LoggerConfiguration()
@@ -24,12 +26,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICrudRepository<Vagon>, VagonCrudMock>();
-builder.Services.AddScoped<ICrudRepository<Way>, WayCrudMock>();
-builder.Services.AddScoped<ICrudRepository<Station>, StationCrudMock>();
-builder.Services.AddScoped<ICrudRepository<GruzType>, GruzCrudMock>();
-builder.Services.AddScoped<ICrudRepository<VagonType>, VagonTypeCrudMock>();
-builder.Services.AddScoped<IVagonInfoRepository, VagonInfoMock>();
+builder.Services.AddDbContext<TrainzContext>();
+
+builder.Services.AddScoped<ICrudRepository<Vagon>, VagonCrudDb>();
+builder.Services.AddScoped<ICrudRepository<Way>, WayCrudDb>();
+builder.Services.AddScoped<ICrudRepository<Station>, StationCrudDb>();
+builder.Services.AddScoped<ICrudRepository<GruzType>, GruzCrudDb>();
+builder.Services.AddScoped<ICrudRepository<VagonType>, VagonTypeCrudDb>();
+builder.Services.AddScoped<IVagonInfoRepository, VagonInfoDb>();
 builder.Services.AddScoped<TrainzOperator>();
 
 var app = builder.Build();

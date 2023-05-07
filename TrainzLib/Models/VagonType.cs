@@ -1,8 +1,17 @@
-﻿namespace TrainzLib.Models
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TrainzLib.Models
 {
+    [Table("vagon_type")]
     public class VagonType
     {
-        public int Id { get; set; } 
+        [Column("id")]
+        [DisplayName("Первыичный ключ")]
+        public int Id { get; set; }
+
+        [Column("nm")]
+        [DisplayName("Наименование")]
         public string Name { get; set; } = string.Empty;
 
         public static IEnumerable<VagonType> GetBaseList()

@@ -12,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainzTest", "TrainzTest\TrainzTest.csproj", "{DAA6859D-B6CA-4B07-87F6-F3626539C882}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainzTest", "TrainzTest\TrainzTest.csproj", "{DAA6859D-B6CA-4B07-87F6-F3626539C882}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainzMock", "TrainzMock\TrainzMock.csproj", "{B0B9200C-48B4-4172-8999-284F0B81597D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainzMock", "TrainzMock\TrainzMock.csproj", "{B0B9200C-48B4-4172-8999-284F0B81597D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainzLiteDb", "TrainzLiteDb\TrainzLiteDb.csproj", "{1D5C0FE4-1A6C-4386-BA3A-A31A7D16132C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{B0B9200C-48B4-4172-8999-284F0B81597D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0B9200C-48B4-4172-8999-284F0B81597D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0B9200C-48B4-4172-8999-284F0B81597D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D5C0FE4-1A6C-4386-BA3A-A31A7D16132C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D5C0FE4-1A6C-4386-BA3A-A31A7D16132C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D5C0FE4-1A6C-4386-BA3A-A31A7D16132C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D5C0FE4-1A6C-4386-BA3A-A31A7D16132C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
+using TrainzLib;
 using TrainzLib.Models;
+using TrainzLib.Operations;
 using TrainzLib.Repository;
 
 namespace TrainzApi.Controllers
@@ -16,13 +17,17 @@ namespace TrainzApi.Controllers
         private readonly ICrudRepository<Station> _stationRepository;
         private readonly ICrudRepository<Way> _wayRepository;
         private readonly ICrudRepository<VagonType> _vagonTypeRepository;
+        private readonly TrainzOperator _trainzOperator;
+        private readonly IVagonInfoRepository _vagonInfoRepository;
 
         public TestController(ILogger<TestController> logger,
             ICrudRepository<Vagon> vagonRepository,
             ICrudRepository<GruzType> gruzRepository,
             ICrudRepository<Station> stationRepository,
             ICrudRepository<Way> wayRepository,
-            ICrudRepository<VagonType> vagonTypeRepository)
+            ICrudRepository<VagonType> vagonTypeRepository,
+            TrainzOperator trainzOperator,
+            IVagonInfoRepository vagonInfoRepository)
         {
             _logger = logger;
             _vagonRepository = vagonRepository;
@@ -30,6 +35,14 @@ namespace TrainzApi.Controllers
             _stationRepository = stationRepository;
             _wayRepository = wayRepository;
             _vagonTypeRepository = vagonTypeRepository;
+            _trainzOperator = trainzOperator;
+            _vagonInfoRepository = vagonInfoRepository;
+        }
+
+        [HttpGet("helloworld")]
+        public string HelloWorld()
+        {
+            return "hello world";
         }
 
         [HttpGet("testData1")]
@@ -72,7 +85,56 @@ namespace TrainzApi.Controllers
             _stationRepository.Insert(st);
             foreach (var w in st.Ways)
                 _wayRepository.Insert(w);
-           
+
+        }
+
+        [HttpGet("testReceiptVagons")]
+        public string ReceiptVagons()
+        {
+            List<VagonInfo> list = new List<VagonInfo>();
+            for (int i = 0; i < 9; i++)
+            {
+                VagonInfo vi = new VagonInfo()
+                {
+                    Vagon = new Vagon { NomVag = i + 1, VagTypeId = 1 },
+                    GruzTypeId = 1,
+                    WayId = (i / 3) + 1
+                };
+                list.Add(vi);
+            }
+            _trainzOperator.ReceiptVagons(list);
+
+            return _vagonInfoRepository.GetAll().ToPrintString();
+        }
+
+        [HttpGet("testranspositionVagons")]
+        public List<string> ranspositionVagons()
+        {
+            List<string> strings = new();
+            strings.Add(_vagonInfoRepository.GetAll().ToPrintString());
+
+            _trainzOperator.TranspositionVagons(1, new List<int> { 4 });
+            strings.Add(_vagonInfoRepository.GetAll().ToPrintString());
+            _trainzOperator.TranspositionVagons(2, new List<int> { 7 });
+            strings.Add(_vagonInfoRepository.GetAll().ToPrintString());
+            _trainzOperator.TranspositionVagons(1, new List<int> { 8 });
+            strings.Add(_vagonInfoRepository.GetAll().ToPrintString());
+            _trainzOperator.TranspositionVagons(3, new List<int> { 6, 5 });
+            strings.Add(_vagonInfoRepository.GetAll().ToPrintString());
+            _trainzOperator.TranspositionVagons(2, new List<int> { 3 });
+            strings.Add(_vagonInfoRepository.GetAll().ToPrintString());
+
+            return strings;
+        }
+
+        [HttpGet("DepartureVagons")]
+        public int DepartureVagons()
+        {
+            _trainzOperator.DepartureVagons(new List<int> { 8, 4, 1, 2 });
+            _trainzOperator.DepartureVagons(new List<int> { 7, 3 });
+            _trainzOperator.DepartureVagons(new List<int> { 9, 6, 5 });
+
+            return _vagonInfoRepository.GetAll().Count();
         }
     }
 }
