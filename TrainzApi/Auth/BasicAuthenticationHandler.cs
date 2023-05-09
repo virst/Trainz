@@ -8,6 +8,7 @@ using TrainzApi.Services;
 
 namespace TrainzApi.Auth
 {
+    // https://www.c-sharpcorner.com/article/basic-authentication-in-swagger-open-api-net-5/
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         #region Property
